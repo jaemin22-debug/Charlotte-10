@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Charlotte's Web - Chapter 10 Quiz</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      background-color: #f8fafc;
+      color: #1e293b;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    h1 {
+      font-size: 1.85rem;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: #64748b;
+      font-size: 1rem;
+    }
+    .score-banner {
+      display: none;
+      position: sticky;
+      top: 20px;
+      z-index: 100;
+      background-color: #2563eb;
+      color: #ffffff;
+      padding: 16px 24px;
+      border-radius: 10px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      margin-bottom: 24px;
+      text-align: center;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+    .quiz-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+    }
+    .q-meta {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+    .passage-box {
+      background-color: #f1f5f9;
+      border-left: 4px solid #3b82f6;
+      border-radius: 4px;
+      padding: 14px 18px;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #334155;
+      margin-bottom: 16px;
+    }
+    .passage-box p {
+      margin-bottom: 6px;
+    }
+    .passage-box p:last-child {
+      margin-bottom: 0;
+    }
+    .sentence-lead {
+      background-color: #eff6ff;
+      border-left: 4px solid #2563eb;
+      border-radius: 4px;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #1e3a8a;
+      margin-bottom: 12px;
+    }
+    .marker {
+      display: inline-block;
+      font-weight: 700;
+      color: #2563eb;
+      background-color: #dbeafe;
+      border-radius: 4px;
+      padding: 1px 6px;
+      margin: 0 3px;
+    }
+    .blank {
+      font-weight: 700;
+      color: #2563eb;
+      text-decoration: underline;
+      padding: 0 4px;
+    }
+    .target-word {
+      text-decoration: underline;
+      font-weight: 700;
+      color: #2563eb;
+    }
+    .question-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 16px;
+    }
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .options-grid.two-cols {
+      grid-template-columns: 1fr 1fr;
+    }
+    .options-grid.four-cols {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    @media (max-width: 640px) {
+      .options-grid.two-cols,
+      .options-grid.four-cols {
+        grid-template-columns: 1fr;
+      }
+    }
+    .option-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #ffffff;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+    .option-item:hover {
+      background-color: #f8fafc;
+      border-color: #cbd5e0;
+    }
+    .option-item input[type="radio"] {
+      margin-top: 4px;
+      cursor: pointer;
+    }
+    .option-text {
+      font-size: 0.95rem;
+      color: #334155;
+    }
+    .btn-container {
+      text-align: center;
+      margin-top: 32px;
+      margin-bottom: 60px;
+    }
+    .submit-btn {
+      background-color: #2563eb;
+      color: #ffffff;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 14px 40px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+      transition: background-color 0.2s, transform 0.1s;
+    }
+    .submit-btn:hover {
+      background-color: #1d4ed8;
+    }
+    .submit-btn:active {
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Charlotte's Web Reading Quiz</h1>
+      <div class="subtitle">Chapter 10: An Explosion</div>
+    </header>
+
+    <div id="scoreBanner" class="score-banner"></div>
+
+    <form id="quizForm">
+      <!-- Question 1 -->
+      <div class="quiz-card" data-correct="B">
+        <div class="q-meta">Question 1</div>
+        <div class="question-title">
+          Chapter 10 is titled &ldquo;An Explosion.&rdquo; What event does this title directly refer to?
+        </div>
+        <div class="options-grid two-cols">
+          <label class="option-item">
+            <input type="radio" name="q1" value="A">
+            <span class="option-text"><strong>A.</strong> A firecracker set off by Avery near the Zuckerman barn.</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q1" value="B">
+            <span class="option-text"><strong>B.</strong> The breaking of Templeton's rotten goose egg when Avery fell on the trough.</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q1" value="C">
+            <span class="option-text"><strong>C.</strong> A sudden thunderstorm that struck the wooden beams of the barn.</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q1" value="D">
+            <span class="option-text"><strong>D.</strong> The loud crash made when the children fell from the high rope swing.</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Question 2 -->
+      <div class="quiz-card" data-correct="A">
+        <div class="q-meta">Question 2</div>
+        <div class="passage-box">
+          &ldquo;Charlotte was naturally patient. She knew from experience that if she waited long enough, a fly would come to her web; and she felt sure that if she thought long enough about Wilbur’s <span class="blank">( A )</span>, a(n) <span class="blank">( B )</span> would come to her mind.&rdquo;
+        </div>
+        <div class="question-title">
+          Choose the pair of words that best fills in the blanks (A) and (B).
+        </div>
+        <div class="options-grid two-cols">
+          <label class="option-item">
+            <input type="radio" name="q2" value="A">
+            <span class="option-text"><strong>A.</strong> (A) problem &mdash; (B) idea</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q2" value="B">
+            <span class="option-text"><strong>B.</strong> (A) appetite &mdash; (B) solution</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q2" value="C">
+            <span class="option-text"><strong>C.</strong> (A) sadness &mdash; (B) plan</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q2" value="D">
+            <span class="option-text"><strong>D.</strong> (A) future &mdash; (B) memory</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Question 3 -->
+      <div class="quiz-card" data-correct="C">
+        <div class="q-meta">Question 3</div>
+        <div class="question-title">
+          Which sentence proves that Charlotte adored Wilbur? (p. 67)
+        </div>
+        <div class="options-grid two-cols">
+          <label class="option-item">
+            <input type="radio" name="q3" value="A">
+            <span class="option-text"><strong>A.</strong> ...and she felt sure that if she thought long enough about Wilbur's problem, an idea would come.</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q3" value="B">
+            <span class="option-text"><strong>B.</strong> &ldquo;The way to save Wilbur's life is to play a trick on Zuckerman.&rdquo;</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q3" value="C">
+            <span class="option-text"><strong>C.</strong> The spider, however stayed wide awake, gazing affectionately at him and making plans for his future.</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q3" value="D">
+            <span class="option-text"><strong>D.</strong> That morning, just as Wilbur fell asleep, Avery Arable wandered into the Zuckerman's front yard...</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Question 4 -->
+      <div class="quiz-card" data-correct="D">
+        <div class="q-meta">Question 4</div>
+        <div class="passage-box">
+          <p>&ldquo;Take that thing out of here!&rdquo; said Mrs. Zuckerman.</p>
+          <p>&ldquo;He&rsquo;s hot,&rdquo; said Fern. &ldquo;He&rsquo;s almost dead, that frog.&rdquo;</p>
+          <p>&ldquo;He is not,&rdquo; said Avery. &ldquo;He lets me scratch him between the eyes.&rdquo;</p>
+          <p>The frog jumped and landed in Mrs. Zuckerman&rsquo;s dishpan full of soapy water.</p>
+          <p>&ldquo;You&rsquo;re getting your pie on you,&rdquo; said Fern. &ldquo;Can I look for eggs in the henhouse, Aunt Edith?&rdquo;</p>
+          <p>&ldquo;Run outdoors, both of you! And don&rsquo;t bother the hens!&rdquo;</p>
+          <p>&ldquo;It&rsquo;s getting all over everything,&rdquo; shouted Fern. &ldquo;His pie is all over his front.&rdquo;</p>
+          <p>&ldquo;Come on, frog!&rdquo; cried Avery. He scooped up his frog. The frog kicked, splashing soapy water onto the blueberry pie.</p>
+        </div>
+        <div class="question-title">
+          According to the passage, why did Avery end up getting pie all over himself?
+        </div>
+        <div class="options-grid two-cols">
+          <label class="option-item">
+            <input type="radio" name="q4" value="A">
+            <span class="option-text"><strong>A.</strong> Mrs. Zuckerman accidentally bumped into him while washing dishes.</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q4" value="B">
+            <span class="option-text"><strong>B.</strong> Fern playfully shoved him while trying to hurry out to the henhouse.</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q4" value="C">
+            <span class="option-text"><strong>C.</strong> The frog suddenly scratched Avery between the eyes, making him drop his food.</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q4" value="D">
+            <span class="option-text"><strong>D.</strong> He was completely absorbed in playing with and catching his frog.</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Question 5 -->
+      <div class="quiz-card" data-correct="A">
+        <div class="q-meta">Question 5</div>
+        <div class="passage-box">
+          &ldquo;...then you would sail through the barn door going a mile a minute, with the wind whistling in your eyes and ears and hair.&rdquo;
+        </div>
+        <div class="question-title">
+          Which literary device is primarily used in this sentence?
+        </div>
+        <div class="options-grid two-cols">
+          <label class="option-item">
+            <input type="radio" name="q5" value="A">
+            <span class="option-text"><strong>A.</strong> Hyperbole</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q5" value="B">
+            <span class="option-text"><strong>B.</strong> Personification</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q5" value="C">
+            <span class="option-text"><strong>C.</strong> Simile</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q5" value="D">
+            <span class="option-text"><strong>D.</strong> Oxymoron</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Question 6 -->
+      <div class="quiz-card" data-correct="B">
+        <div class="q-meta">Question 6</div>
+        <div class="passage-box">
+          <p>&ldquo;Your tongue is purple!&rdquo; screamed Fern.</p>
+          <p>&ldquo;So is yours!&rdquo; cried Avery, sailing out again with the frog.</p>
+          <p>&ldquo;I have hay inside my dress! It itches!&rdquo; called Fern.</p>
+          <p>&ldquo;Scratch it!&rdquo; yelled Avery, as he sailed back.</p>
+          <p>&ldquo;It&rsquo;s my turn,&rdquo; said Fern. &ldquo;Jump off!&rdquo;</p>
+          <p>&ldquo;Fern&rsquo;s got the itch!&rdquo; sang Avery.</p>
+        </div>
+        <div class="question-title">
+          Which pair of words best describes the mood of this passage?
+        </div>
+        <div class="options-grid two-cols">
+          <label class="option-item">
+            <input type="radio" name="q6" value="A">
+            <span class="option-text"><strong>A.</strong> Tense and scary</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q6" value="B">
+            <span class="option-text"><strong>B.</strong> Playful and lively</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q6" value="C">
+            <span class="option-text"><strong>C.</strong> Somber and worried</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q6" value="D">
+            <span class="option-text"><strong>D.</strong> Mysterious and calm</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Question 7 -->
+      <div class="quiz-card" data-correct="C">
+        <div class="q-meta">Question 7</div>
+        <div class="passage-box">
+          &ldquo;...Their tongues turned from purple to red. Fern bit into a raspberry that had a bad-tasting bug inside it, and got <span class="blank">_________</span>. Avery found an empty candy box and put his frog in it. The frog seemed tired after his morning in the swing.&rdquo;
+        </div>
+        <div class="question-title">
+          Choose the word that best fills in the blank based on the context.
+        </div>
+        <div class="options-grid two-cols">
+          <label class="option-item">
+            <input type="radio" name="q7" value="A">
+            <span class="option-text"><strong>A.</strong> delighted</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q7" value="B">
+            <span class="option-text"><strong>B.</strong> energetic</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q7" value="C">
+            <span class="option-text"><strong>C.</strong> discouraged</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q7" value="D">
+            <span class="option-text"><strong>D.</strong> curious</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Question 8 -->
+      <div class="quiz-card" data-correct="D">
+        <div class="q-meta">Question 8</div>
+        <div class="passage-box">
+          Fern was crying. She held her nose and ran toward the house. Avery ran <span class="target-word">after</span> her, holding his nose. Charlotte felt greatly relieved to see him go. It had been a narrow escape.
+        </div>
+        <div class="question-title">
+          In which of the following sentences does the word &ldquo;after&rdquo; have the closest meaning to the underlined word in the passage?
+        </div>
+        <div class="options-grid">
+          <label class="option-item">
+            <input type="radio" name="q8" value="A">
+            <span class="option-text"><strong>A.</strong> We decided to go out for dinner <em>after</em> five o'clock.</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q8" value="B">
+            <span class="option-text"><strong>B.</strong> The baby was named <em>after</em> her beloved grandmother.</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q8" value="C">
+            <span class="option-text"><strong>C.</strong> Day <em>after</em> day, the bright sun continued to shine on the farm.</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q8" value="D">
+            <span class="option-text"><strong>D.</strong> The police officer ran down the sidewalk <em>after</em> the speeding thief.</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Question 9 -->
+      <div class="quiz-card" data-correct="A">
+        <div class="q-meta">Question 9</div>
+        <div class="passage-box">
+          Templeton, of course, was miserable over the loss of his beloved egg. But he couldn’t resist boasting. &ldquo;It <span class="blank">_________</span> to save things,&rdquo; he said in his surly voice. &ldquo;A rat never knows when something is going to come in handy. I never throw anything away.&rdquo;
+        </div>
+        <div class="question-title">
+          Choose the word that best fills in the blank in the context of the sentence.
+        </div>
+        <div class="options-grid two-cols">
+          <label class="option-item">
+            <input type="radio" name="q9" value="A">
+            <span class="option-text"><strong>A.</strong> pays</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q9" value="B">
+            <span class="option-text"><strong>B.</strong> spends</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q9" value="C">
+            <span class="option-text"><strong>C.</strong> makes</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q9" value="D">
+            <span class="option-text"><strong>D.</strong> costs</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Question 10 -->
+      <div class="quiz-card" data-correct="B">
+        <div class="q-meta">Question 10</div>
+        <div class="sentence-lead">
+          &ldquo;Then he picked up the pail.&rdquo;
+        </div>
+        <div class="passage-box">
+          <span class="marker">[1]</span> And Lurvy dragged Wilbur&rsquo;s trough across the yard and kicked some dirt into the rat&rsquo;s nest, burying the broken egg and all Templeton&rsquo;s other possessions. <span class="marker">[2]</span> Wilbur stood in the trough, drooling with hunger. <span class="marker">[3]</span> Lurvy poured. The slops ran creamily down around the pig&rsquo;s eyes and ears. <span class="marker">[4]</span> Wilbur grunted.
+        </div>
+        <div class="question-title">
+          Where does the given sentence best fit in the passage above?
+        </div>
+        <div class="options-grid four-cols">
+          <label class="option-item">
+            <input type="radio" name="q10" value="A">
+            <span class="option-text"><strong>A.</strong> [1]</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q10" value="B">
+            <span class="option-text"><strong>B.</strong> [2]</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q10" value="C">
+            <span class="option-text"><strong>C.</strong> [3]</span>
+          </label>
+          <label class="option-item">
+            <input type="radio" name="q10" value="D">
+            <span class="option-text"><strong>D.</strong> [4]</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="btn-container">
+        <button type="button" class="submit-btn" onclick="gradeQuiz()">Submit Answers</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function gradeQuiz() {
+      const cards = document.querySelectorAll('.quiz-card');
+      let score = 0;
+      const total = cards.length;
+
+      cards.forEach((card, index) => {
+        const correct = card.getAttribute('data-correct');
+        const qNum = index + 1;
+        const selected = document.querySelector(`input[name="q${qNum}"]:checked`);
+        
+        if (selected && selected.value === correct) {
+          score++;
+        }
+      });
+
+      const banner = document.getElementById('scoreBanner');
+      const percent = Math.round((score / total) * 100);
+      banner.textContent = `Score: ${score} / ${total} (${percent}%)`;
+      banner.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
